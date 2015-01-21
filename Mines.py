@@ -21,13 +21,13 @@ class Square(Button):
 			space.isClicked = True
 			if(space.isMine):
 				self.config(text = "x", bg="red")
-				print("You blew your ass up at space " + str(self.row) + " " + str(self.col))
+				print("You blew yourself up at space " + str(self.row) + " " + str(self.col))
 				sys.exit()
 			else:
 				if(space.surroundedBy >= 0):
-					self.config(text = str(space.surroundedBy))
+					self.config(text = str(space.surroundedBy), relief=SUNKEN)
 		if(self.master.master.game.checkWin()):
-			print("You Fucking Won!")
+			print("You Won!")
 			sys.exit()
 
 	def rightClick(self, event):
@@ -45,6 +45,13 @@ class MineGame(Canvas):
 		Canvas.__init__(self, master=master, *args, **kwargs)
 		
 		self.game = MinesGame()
+
+		self.menuFrame = Frame(self)
+		self.menuFrame.pack(side = TOP)
+
+		difficulty = Button(master = self.menuFrame, text = "Difficulty")
+		difficulty.grid(row = 0, column = 0)
+
 
 		self.buttonFrame = Frame(self)
 		self.buttonFrame.pack(side = BOTTOM)
