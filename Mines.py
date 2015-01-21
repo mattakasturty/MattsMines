@@ -41,17 +41,19 @@ class Square(Button):
 
 
 class MineGame(Canvas):
-	def __init__(self, master, *args,**kwargs):
+	def __init__(self, master, diff, *args,**kwargs):
 		Canvas.__init__(self, master=master, *args, **kwargs)
 		
-		self.game = MinesGame()
+		self.game = MinesGame(self, diff)
 
 		self.menuFrame = Frame(self)
 		self.menuFrame.pack(side = TOP)
 
-		difficulty = Button(master = self.menuFrame, text = "Difficulty")
+		setDiff = Button(master = self.menuFrame, text = "Set", command = self.setDifficulty)
+		difficulty = OptionMenu(self.menuFrame, self.game.difficulty, "Easy", "Intermediate", "Expert")
+		
 		difficulty.grid(row = 0, column = 0)
-
+		setDiff.grid(row = 0, column = 1)
 
 		self.buttonFrame = Frame(self)
 		self.buttonFrame.pack(side = BOTTOM)
@@ -62,12 +64,19 @@ class MineGame(Canvas):
 				s.config(command = s.click)
 				s.grid(row = i, column = j)
 
+	def setDifficulty(self):
+		d = self.game.difficulty.get()
+		self.master.destroy()
+		window = Tk()
+		board = MineGame(master = window, diff = d)
+		board.pack()
+		window.mainloop()
 
 
 
 
 if __name__ == "__main__":
 	window = Tk()
-	board = MineGame(master = window)
+	board = MineGame(master = window, diff = "Easy")
 	board.pack()
 	window.mainloop()

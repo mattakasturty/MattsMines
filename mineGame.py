@@ -1,18 +1,20 @@
 #mineGame.py
 
 from random import *
+from tkinter import StringVar
 
 class MinesGame:
 	"""
 	MinesGame Class - Basic Framework of MinesGame
 	"""
 	
-	def __init__(self):
+	def __init__(self, master, diff):
 		"""
 		MinesGame Constructor. Takes no arguments
 		"""
-		self.setSize("Easy")
-		self.initBoard()
+		self.master = master
+		self.setSize(diff)
+		
 
 	def __str__(self):
 		"""
@@ -37,28 +39,32 @@ class MinesGame:
 		MinesGame.setSize(self, difficulty)
 			Takes difficulty as a string: Easy | Intermediate | Expert | Custom(To be written)
 		"""
-		self.difficulty = difficulty
-		if(self.difficulty == "Easy"):
+		self.difficulty = StringVar(self.master)
+		self.difficulty.set(difficulty)
+		print(self.difficulty.get())
+		if(self.difficulty.get() == "Easy"):
 			self.rows = 8
 			self.cols = 8
 			self.numMines = 10
-		elif(self.difficulty == "Intermediate"):
+		elif(self.difficulty.get() == "Intermediate"):
 			self.rows = 16
 			self.cols = 16
 			self.numMines = 40
-		elif(self.difficulty == "Expert"):
+		elif(self.difficulty.get() == "Expert"):
 			self.rows = 16
 			self.cols = 30
 			self.numMines = 99
 		else:
 			pass
+		
+		self.initBoard()
 
 	def initBoard(self):
 		"""
 
 		"""
 		self.board = []
-		
+		print(self.difficulty.get())
 		#Board of empty squares
 		for i in range(0, self.rows, 1):
 			l = []
